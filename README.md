@@ -24,7 +24,7 @@ auto op[first,last,dst](T^n args...);
 *(T^n args...) = hodge(arg[0], ..., arg[n-2]); 
 
 (** laplace operator *)
-%(T^n args...) = laplace(arg[0], ...., arg[n-2]);
+%(T^n args...) = laplace(arg[0], ..., arg[n-2]);
 
 (** determinant *)
 ?(T^n args...) = det(arg[0], ..., arg[n-1]);
