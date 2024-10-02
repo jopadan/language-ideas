@@ -20,7 +20,7 @@ auto op[first,last,dst](T^n args...);
 (** scalar product with optional variable arg count > 2 *)
 |(T^n args...) = (arg[0] * ... * arg[n-1]).sum();
 
-(** hodge star operator for n-dim vector product with specializations for ((n or subvec.len()) <= 4) *)
+(** vector product using hodge star operator with specializations for ((n or subvec.len()) <= 4) *)
 *(T^n args...) = hodge(arg[0], ..., arg[n-2]); 
 
 ```
