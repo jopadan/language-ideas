@@ -28,4 +28,7 @@ auto op[first,last,dst](T^n args...);
 
 (** determinant *)
 ?(T^n args...) = det(arg[0], ..., arg[n-1]);
+
+(** derivative *)
+fun operator'(const fun& arg);
 ```
