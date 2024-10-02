@@ -23,4 +23,9 @@ auto op[first,last,dst](T^n args...);
 (** vector product using hodge star operator with specializations for ((n or subvec.len()) <= 4) *)
 *(T^n args...) = hodge(arg[0], ..., arg[n-2]); 
 
+(** laplace operator *)
+%(T^n args...)
+
+(** determinant *)
+?(T^n args...) 
 ```
