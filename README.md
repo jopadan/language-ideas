@@ -4,12 +4,15 @@ Collection of ideas for a possible future language
 - C++, Chuck, Nabla, rakudo and OCaml influenced types
 - old school linear algebra vector/matrix type operators including subscript range/indices
 
-```perl6
-template<typename T>
-concept scalar = std::integral<T> || std::floating_point<T>;
+```cpp
+#include <cstdlib>
+#include <cstdio>
+#include <bit>
+#include <array>
+#include <numeric>
 
 template<typename T>
-concept size   = std::unsigned_integral<T>;
+concept scalar = std::integral<T> || std::floating_point<T>;
 
 enum align
 {
@@ -19,19 +22,21 @@ enum align
 };
 
 /* fixed value array with interface of valarray but with element/vector aligned fixed static underlying array type */
-template<enum align A, scalar T, size N>
+template<enum align A, scalar T, size_t N>
 class fixed_valarray
 {
 public:
+constexpr static size_t pow2 = sizeof(T) * std::bit_ceil<size_t>(N);
     using element_aligned_array_type = std::array<T,N>;
-    using vector_aligned_array_type __attribute__((vector_size(sizeof(T) * std::bit_ceil<size_t>(N)))) = T;
+    using vector_aligned_array_type __attribute__((vector_size(pow2))) = T;
     using array_type = std::conditional_t<(A == align::element || ((A == align::adaptive) && (std::popcount(N) != 0))),
                        element_aligned_array_type, vector_aligned_array_type>;
 /* implement all std::valarray interface functions here */
 private:
     array_type data;
 };
-
+```
+```perl6
 template<scalar T, size_t n>
 auto op(T^n args...);
 
