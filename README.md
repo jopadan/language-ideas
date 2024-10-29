@@ -23,9 +23,10 @@ template<enum align A, scalar T, size N>
 class fixed_valarray
 {
 public:
-    using element_alignedarray_type = std::array<T,N>;
+    using element_aligned_array_type = std::array<T,N>;
     using vector_aligned_array_type __attribute__((vector_size(sizeof(T) * std::bit_ceil<size_t>(N)))) = T;
-    using array_type = std::conditional_t<(A == align::element || ((A == align::adaptive) && (std::popcount(N) != 0))), element_aligned_array_type, vector_aligned_array_type>;
+    using array_type = std::conditional_t<(A == align::element || ((A == align::adaptive) && (std::popcount(N) != 0))),
+                       element_aligned_array_type, vector_aligned_array_type>;
 /* implement all std::valarray interface functions here */
 private:
     array_type data;
