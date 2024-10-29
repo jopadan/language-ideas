@@ -4,6 +4,31 @@ Collection of ideas for a possible future language
 - C++, Chuck, Nabla, rakudo and OCaml influenced types
 - old school linear algebra vector/matrix type operators including subscript range/indices
 
+```perl6
+template<scalar T, size_t n>
+auto op(T^n args...);
+
+template<scalar T, size_t n>
+auto op{indices...,dst}(T^n args...);
+
+template<scalar T, size_t n>
+auto op[first,last,dst](T^n args...);
+
+(** scalar product with optional variable arg count > 2 *)
+|(T^n args...) = std::accumulate<T>(arg[0] * ... * arg[sizeof...(args)-1]);
+
+(** vector product using hodge star operator with specializations for ((n or subvec.len()) <= 4) *)
+*(T^n args...) = hodge(arg[0], ..., arg[n-2]); 
+
+(** laplace operator *)
+%(T^n args...) = laplace(arg[0], ..., arg[n-2]);
+
+(** determinant *)
+?(T^n args...) = det(arg[0], ..., arg[n-1]);
+
+(** derivative *)
+fun operator'(const fun& arg);
+```
 ```cpp
 #include <cstdlib>
 #include <cstdio>
@@ -34,47 +59,20 @@ using array_type = std::conditional_t<(OA == align::element || ((OA == align::ad
 template<scalar T, size_t N, enum align A = align::adaptive>
 struct fixed_valarray
 {
-
 fixed_valarray(std::initializer_list<T> src)
 {
-        std::copy_n(src.begin(), std::min<size_t>(src.size(), N), &data[0]);
+  std::copy_n(src.begin(), std::min<size_t>(src.size(), N), &data[0]);
 }
-T& operator[](size_t i) { return data[i]; }
+  T& operator[](size_t i) { return data[i]; }
 private:
-array_type<T,N,A> data;
+  array_type<T,N,A> data;
 };
 
 };
-
 
 namespace vec
 {
 template<size_t N>
 using f32 = std::fixed_valarray<float, N>;
 };
-```
-```perl6
-template<scalar T, size_t n>
-auto op(T^n args...);
-
-template<scalar T, size_t n>
-auto op{indices...,dst}(T^n args...);
-
-template<scalar T, size_t n>
-auto op[first,last,dst](T^n args...);
-
-(** scalar product with optional variable arg count > 2 *)
-|(T^n args...) = std::accumulate<T>(arg[0] * ... * arg[sizeof...(args)-1]);
-
-(** vector product using hodge star operator with specializations for ((n or subvec.len()) <= 4) *)
-*(T^n args...) = hodge(arg[0], ..., arg[n-2]); 
-
-(** laplace operator *)
-%(T^n args...) = laplace(arg[0], ..., arg[n-2]);
-
-(** determinant *)
-?(T^n args...) = det(arg[0], ..., arg[n-1]);
-
-(** derivative *)
-fun operator'(const fun& arg);
 ```
