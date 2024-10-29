@@ -10,10 +10,13 @@ Collection of ideas for a possible future language
 #include <bit>
 #include <array>
 #include <numeric>
+#include <algorithm>
 
 template<typename T>
 concept scalar = std::integral<T> || std::floating_point<T>;
 
+namespace std
+{
 enum align
 {
   adaptive = 0,
@@ -21,19 +24,33 @@ enum align
   vector   = 2,
 };
 
-/* fixed value array with interface of valarray but with element/vector aligned fixed static underlying array type */
-template<enum align A, scalar T, size_t N>
-class fixed_valarray
+template<scalar OT, size_t ON>
+using element_aligned_type = std::array<OT, ON>;
+template<scalar OT, size_t ON, size_t POW2 = std::bit_ceil<size_t>(ON)>
+using vector_aligned_type __attribute__((vector_size(sizeof(OT) * POW2))) = OT;
+template<scalar OT, size_t ON, enum align OA = align::adaptive>
+using array_type = std::conditional_t<(OA == align::element || ((OA == align::adaptive) && (std::popcount(ON) != 1))), element_aligned_type<OT,ON>, vector_aligned_type<OT,ON>>;
+
+template<scalar T, size_t N, enum align A = align::adaptive>
+struct fixed_valarray
 {
-public:
-constexpr static size_t pow2 = sizeof(T) * std::bit_ceil<size_t>(N);
-    using element_aligned_array_type = std::array<T,N>;
-    using vector_aligned_array_type __attribute__((vector_size(pow2))) = T;
-    using array_type = std::conditional_t<(A == align::element || ((A == align::adaptive) && (std::popcount(N) != 0))),
-                       element_aligned_array_type, vector_aligned_array_type>;
-/* implement all std::valarray interface functions here */
+
+fixed_valarray(std::initializer_list<T> src)
+{
+        std::copy_n(src.begin(), std::min<size_t>(src.size(), N), &data[0]);
+}
+T& operator[](size_t i) { return data[i]; }
 private:
-    array_type data;
+array_type<T,N,A> data;
+};
+
+};
+
+
+namespace vec
+{
+template<size_t N>
+using f32 = std::fixed_valarray<float, N>;
 };
 ```
 ```perl6
