@@ -8,6 +8,29 @@ Collection of ideas for a possible future language
 template<typename T>
 concept scalar = std::integral<T> || std::floating_point<T>;
 
+template<typename T>
+concept size   = std::unsigned_integral<T>;
+
+enum align
+{
+  adaptive = 0,
+  element  = 1,
+  vector   = 2,
+};
+
+/* fixed value array with interface of valarray but with element/vector aligned fixed static underlying array type */
+template<enum align A, scalar T, size N>
+class fixed_valarray
+{
+public:
+    using element_alignedarray_type = std::array<T,N>;
+    using vector_aligned_array_type __attribute__((vector_size(sizeof(T) * std::bit_ceil<size_t>(N)))) = T;
+    using array_type = std::conditional_t<A == align::element, element_aligned_array_type, vector_aligned_array_type>;
+/* implement all std::valarray interface functions here */
+private:
+    array_type data;
+};
+
 template<scalar T, size_t n>
 auto op(T^n args...);
 
