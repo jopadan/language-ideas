@@ -29,4 +29,4 @@ auto op[first,last,dst](T^n args...);
 (** derivative *)
 fun operator'(const fun& arg);
 ```
-- implement C++ linear algebra n-dimensional arithmetic static vector type with adaptive element/vector alignment according to n [kokkos/mdarray](https://github.com/kokkos/mdarray) and [kokkos/mdspan](https://github.com/kokkos/mdspan)
+- implement C++ linear algebra n-dimensional arithmetic static vector type with adaptive element/vector alignment according to n similiar too [kokkos/mdarray](https://github.com/kokkos/mdarray) and [kokkos/mdspan](https://github.com/kokkos/mdspan)
