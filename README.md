@@ -30,5 +30,5 @@ auto op[first,last,dst](T^n args...);
 fun operator'(const fun& arg);
 ```
 
-Collection of important implementations of existing C++ language
+Collection of important additions to the existing standard C++ language
 - linear algebra n-dimensional fixed extents arithmetic static allocated stack/register vector/matrix type with adaptive element/vector alignment according to n, similiar to [kokkos/mdarray](https://github.com/kokkos/mdarray) and [kokkos/mdspan](https://github.com/kokkos/mdspan)
