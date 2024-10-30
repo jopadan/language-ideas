@@ -29,4 +29,6 @@ auto op[first,last,dst](T^n args...);
 (** derivative *)
 fun operator'(const fun& arg);
 ```
-- implement C++ linear algebra n-dimensional fixed extents arithmetic static allocated stack/register vector/matrix type with adaptive element/vector alignment according to n, similiar to [kokkos/mdarray](https://github.com/kokkos/mdarray) and [kokkos/mdspan](https://github.com/kokkos/mdspan)
+
+Collection of important implementations of existing C++ language
+- linear algebra n-dimensional fixed extents arithmetic static allocated stack/register vector/matrix type with adaptive element/vector alignment according to n, similiar to [kokkos/mdarray](https://github.com/kokkos/mdarray) and [kokkos/mdspan](https://github.com/kokkos/mdspan)
