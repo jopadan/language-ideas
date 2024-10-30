@@ -29,23 +29,4 @@ auto op[first,last,dst](T^n args...);
 (** derivative *)
 fun operator'(const fun& arg);
 ```
-- implement linear algebra n-dimensional vector type with adaptive element/vector alignment according to n
-```
-realize std::fixed_valarray with std::mdspan using extents::static_extents based on kokkos examples
-template<scalar T, size_t N>
-using fixed_valarray = std::mdspan<T, static_extents(N)>
-
-template<size_t N>
-struct vec : fixed_valarray<float, N>
-{
-}
-template<size_t N>
-struct qut : fixed_valarray<float, N>
-{
-}
-
-template<size_t ROWS, size_T COLS>
-struct mat : fixed_valarray<float, COLS, ROWS>
-{
-}
-```
+- implement C++ linear algebra n-dimensional arithmetic static vector type with adaptive element/vector alignment according to n [kokkos/mdarray](https://github.com/kokkos/mdarray) and [kokkos/mdspan](https://github.com/kokkos/mdspan)
