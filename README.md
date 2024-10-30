@@ -30,5 +30,5 @@ auto op[first,last,dst](T^n args...);
 fun operator'(const fun& arg);
 ```
 ```
-realize std::fixed_valarray with std::mdspan using extents::static_extents
+realize std::fixed_valarray with std::mdspan using extents::static_extents based on kokkos examples
 ```
