@@ -29,50 +29,6 @@ auto op[first,last,dst](T^n args...);
 (** derivative *)
 fun operator'(const fun& arg);
 ```
-```cpp
-#include <cstdlib>
-#include <cstdio>
-#include <bit>
-#include <array>
-#include <numeric>
-#include <algorithm>
-
-template<typename T>
-concept scalar = std::integral<T> || std::floating_point<T>;
-
-namespace std
-{
-enum align
-{
-  adaptive = 0,
-  element  = 1,
-  vector   = 2,
-};
-
-template<scalar OT, size_t ON>
-using element_aligned_type = std::array<OT, ON>;
-template<scalar OT, size_t ON, size_t POW2 = std::bit_ceil<size_t>(ON)>
-using vector_aligned_type __attribute__((vector_size(sizeof(OT) * POW2))) = OT;
-template<scalar OT, size_t ON, enum align OA = align::adaptive>
-using array_type = std::conditional_t<(OA == align::element || ((OA == align::adaptive) && (std::popcount(ON) != 1))), element_aligned_type<OT,ON>, vector_aligned_type<OT,ON>>;
-
-template<scalar T, size_t N, enum align A = align::adaptive>
-struct fixed_valarray
-{
-fixed_valarray(std::initializer_list<T> src)
-{
-  std::copy_n(src.begin(), std::min<size_t>(src.size(), N), &data[0]);
-}
-  T& operator[](size_t i) { return data[i]; }
-private:
-  array_type<T,N,A> data;
-};
-
-};
-
-namespace vec
-{
-template<size_t N>
-using f32 = std::fixed_valarray<float, N>;
-};
+```
+realize std::fixed_valarray with std::mdspan using extents::static_extents
 ```
